@@ -1,9 +1,13 @@
 //components
 import {Messanger} from "./components/Messanger";
+import AccountProvider from "./context/AccountProvider";
 function App() {
   return (
     <div>
-        <Messanger />
+        <AccountProvider>
+            <Messanger />
+        </AccountProvider>
+
        </div>
   );
 }

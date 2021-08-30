@@ -1,5 +1,8 @@
+import {useContext}  from "react";
+import {GoogleLogin} from 'react-google-login';
 import {makeStyles,Dialog,withStyles,Box,Typography,ListItem,List} from '@material-ui/core';
-const url = 'https://www.ginifab.com/feeds/qr_code/img/qrcode.jpg';
+import {AccountContext} from "../../context/AccountProvider";
+
 const style = {
     dialogPaper: {
         marginTop: '12%',
@@ -45,6 +48,19 @@ const useStyle = makeStyles({
 
 const Login = ({classes}) =>{
     const classname = useStyle();
+    const url = 'https://www.ginifab.com/feeds/qr_code/img/qrcode.jpg';
+    const clientId = '159147234974-ni98qhbf5u91ghb99f0mmpekmqqcsgr5.apps.googleusercontent.com';
+
+    const {account,setAccount} = useContext(AccountContext);
+
+    const onLoginSuccess = (res) => {
+        console.log("login Successfull",res.profileObj);
+        setAccount(res.profileObj);
+    }
+    const onLoginFailure = () => {
+        console.log("LLL Lg gye");
+    }
+
     return(
        <Dialog open={true}
        classes={{paper: classes.dialogPaper}}
@@ -63,6 +79,16 @@ const Login = ({classes}) =>{
 
                <Box style={{position:'relative'}}>
                    <img src={url} alt="QR" className={classname.qr} />
+                    <Box style={{position: 'absolute', left: '50%', top: '50%', transform: 'translateX(0%) translateY(-25%)'}}>
+                   <GoogleLogin
+                   clientId={clientId}
+                   buttonText=""
+                   isSignedIn={true}
+                   onSuccess={onLoginSuccess}
+                   onFailure={onLoginFailure}
+                   cookiePolicy={'single_host_origin'}
+                   />
+                    </Box>
                </Box>
 
            </Box>
